@@ -1,0 +1,132 @@
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+}*newnode,*temp;
+//struct node *head=NULL;
+//struct node *tail=NULL;
+struct node* mergeTwoLists(struct node* list1, struct node* list2){
+     struct node* list3;
+    struct node* head;
+    if(list1== NULL && list2!=NULL)
+        return list2;
+    else if(list1 != NULL && list2 == NULL )
+        return list1;
+    else if(list1 == NULL && list2 == NULL)
+        return NULL;
+    if(list1->data< list2->data){
+        list3= list1;
+        list1 = list1->next;
+        list3->next = NULL;
+    }
+    else{
+        list3 = list2;
+        list2 = list2->next;
+        list3->next = NULL;
+    }
+    head = list3;
+    while(list1 || list2){
+        if(list1 == NULL && list2 != NULL){
+            list3->next = list2;
+            list2 = list2->next;
+            list3= list3->next;
+            list3->next = NULL;
+            continue;
+        }
+        else if(list2 == NULL && list1 != NULL){
+            list3->next = list1;
+            list1 = list1->next;
+            list3 = list3->next;
+            list3->next = NULL;
+            continue;
+        }
+        if(list1->data< list2->data){
+            list3->next = list1;
+            list1 = list1->next;
+            list3 = list3->next;
+            list3->next = NULL;
+        }
+        else{
+            list3->next = list2;
+            list2 = list2->next;
+            list3 = list3->next;
+            list3->next = NULL;
+        }
+    }
+    
+    return head;
+}
+struct node *create()
+{
+        int no,a,count=0;
+        struct node *head=NULL;
+        struct node *tail=NULL;
+        printf("Enter a value\n");
+        scanf("%d",&a);
+        while(a!=0)
+        {
+                printf("enter the no:");
+                scanf("%d",&no);
+                newnode=(struct node*)malloc(sizeof(struct node));
+                newnode->data=no;
+                newnode->next=NULL;
+                if(head==NULL)
+                {
+                        head=newnode;
+                        tail=newnode;
+                }
+                else
+                {
+                        tail->next=newnode;
+                        tail=newnode;
+                }
+                count=count+1;
+                scanf("%d",&a);
+                fflush(stdin);
+        }//while(a!=0);
+        printf("%d\n",count);
+    return head;
+}
+void display(struct node *head)
+{
+    temp=head;
+    while(temp!=NULL)
+    {
+        printf("%d\t",temp->data);
+        temp=temp->next;
+    }
+    printf("\n");
+}
+void main()
+{
+    int n,i;
+    printf("Enter no of Linked lists\n");
+    scanf("%d",&n);
+    struct node *lists[n];
+    //struct node *head[n];
+    //struct node *tail[n];
+    for(i=0;i<n;i++)
+    {
+        lists[i]=create();
+    }
+    for(i=0;i<n;i++)
+    {
+        display(lists[i]);
+    }
+    for(i=1;i<n;i++)
+    {
+       lists[0]=mergeTwoLists(lists[0],lists[i]);
+    }
+    printf("\n");
+    display(lists[0]);
+}
