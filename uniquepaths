@@ -1,0 +1,38 @@
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+#include<stdio.h>
+#include<stdlib.h>
+void main()
+{
+    int m,n,i,j;
+    printf("Enter m,n values\n");
+    scanf("%d %d",&m,&n);
+    int mat[m][n];
+    for(i=0;i<1;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            mat[i][j]=1;
+        }
+    }
+    for(i=0;i<m;i++)
+    {
+        for(j=0;j<1;j++)
+        {
+            mat[i][j]=1;
+        }
+    }
+    for(i=1;i<m;i++)
+    {
+        for(j=1;j<n;j++)
+        {
+            mat[i][j]=mat[i][j-1]+mat[i-1][j];
+        }
+    }
+    printf("%d",mat[m-1][n-1]);
+}
