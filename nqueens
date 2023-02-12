@@ -1,0 +1,80 @@
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int N,k=1;
+int isSafe(char mat[][N],int r,int c)
+{
+    int i,j;
+    for(i=0;i<r;i++)
+    {
+        if(mat[i][c]=='Q')
+        {
+            return 0;
+        }
+        
+    }
+    for(i=r,j=c;i>=0&&j>=0;i--,j--)
+    {
+        if(mat[i][j]=='Q')
+        {
+            return 0;
+        }
+    }
+    for(i=r,j=c;i>=0&&j<N;i--,j++)
+    {
+        if(mat[i][j]=='Q')
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+void print(char mat[][N])
+{
+    int i,j;
+    for(i=0;i<N;i++)
+    {
+        for(j=0;j<N;j++)
+        {
+            printf("%c",mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+void nQueen(char mat[][N],int r)
+{
+    int i,j;
+    if(r==N)
+    {
+        printf("Count:%d\n",k);
+        print(mat);
+        k=k+1;
+    }
+    for(i=0;i<N;i++)
+    {
+        if(isSafe(mat,r,i))
+        {
+            mat[r][i]='Q';
+            nQueen(mat,r+1);
+            mat[r][i]='-';
+        }
+    }
+}
+void main()
+{
+    int n;
+    printf("Enter size of board\n");
+    scanf("%d",&n);
+    N=n;
+    char mat[n][n];
+    memset(mat,'-',sizeof mat);
+    nQueen(mat,0);
+    
+}
