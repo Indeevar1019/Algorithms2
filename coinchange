@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include<stdlib.h>
+int min(int a,int b)
+{
+    if(a<=b)
+    {
+        return a;
+    }
+    else
+    {
+        return b;
+    }
+}
+void main()
+{
+    int n,amount,i,j;
+    printf("Enter the no of coins and Amount\n");
+    scanf("%d %d",&n,&amount);
+    int dp[amount+1];
+    int coins[n];
+    for(i=0;i<amount+1;i++)
+    {
+        dp[i]=amount+1;
+    }
+    dp[0]=0;
+    printf("Enter Coins Array\n");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&coins[i]);
+    }
+    for(i=0;i<n;i++)
+    {
+        int c=coins[i];
+        for(j=c;j<=amount;j++)
+        {
+            dp[j]=min(dp[j],dp[j-c]+1);
+        }
+    }
+    if(dp[amount]<=amount)
+    {
+        printf("The total no of coins are %d",dp[amount]);
+    }
+    else
+    {
+        printf("-1");
+    }
+}
