@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<limits.h>
+#define infinity 9999
+#define MAX 20
+int G[MAX][MAX],spanning[MAX][MAX];
+int manhattan(int x1,int x2,int y1,int y2)
+{
+    return abs(x2-x1)+abs(y2-y1);
+}
+void mincosttoconnectallpoints(int points[][2],int n)
+{
+    int i,j,cost[n][n];
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if(i==j)
+            {
+                cost[i][j]=999;
+            }
+            else
+            {
+                int a=points[i][0];
+                int b=points[j][0];
+                int c=points[i][1];
+                int d=points[j][1];
+                int dis=manhattan(a,b,c,d);
+                cost[i][j]=dis;
+            }
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            G[i][j]=cost[i][j];
+            spanning[i][j]=0;
+        }
+    }
+    int distance[MAX],visited[MAX],from[MAX],u,v,ne,no_of_edges,min_distance,min_cost=0;
+    distance[0]=0;
+    visited[0]=1;
+    for(i=1;i<n;i++)
+    {
+        distance[i]=cost[0][i];
+        from[i]=0;
+        visited[i]=0;
+    }
+    int mincost=0;
+    no_of_edges=n-1;
+    while(no_of_edges>0)
+    {
+        min_distance=999;
+        for(i=1;i<n;i++)
+        {
+            if(visited[i]==0 && distance[i]<min_distance)
+            {
+                v=i;
+                min_distance=distance[i];
+            }
+        }
+        u=from[v];
+        spanning[u][v]=distance[v];
+        spanning[v][u]=distance[v];
+        no_of_edges=no_of_edges-1;
+        visited[v]=1;
+        for(i=1;i<n;i++)
+        {
+            if(visited[i]==0 && cost[i][v]<distance[i])
+            {
+                distance[i]=cost[i][v];
+                from[i]=v;
+            }
+            
+        }
+        min_cost=min_cost+cost[u][v];
+    }
+        printf("%d",min_cost);
+}
+void main()
+{
+    int n,i,j;
+    printf("Enter no of Points\n");
+    scanf("%d",&n);
+    int points[n][2];
+    for(i=0;i<n;i++)
+    {
+        scanf("%d %d",&points[i][0],&points[i][1]);
+    }
+    mincosttoconnectallpoints(points,n);
+}
